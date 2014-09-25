@@ -89,13 +89,13 @@ def iq_values(detector_size, pixel_size, calibrated_center,
                                  pixel_size, calibrated_center,
                                  dist_sample, wavelength, ub_mat)
 
-    q_val = np.sqrt(hkl_val[:,0]**2 + hkl_val[:,1]**2 + hkl_val[:,2]**2)
+    q_val = np.sqrt(hkl_val[:, 0]**2 + hkl_val[:, 1]**2 + hkl_val[:, 2]**2)
     q_values = q_val.reshape(detector_size[0], detector_size[1])
 
     q_ring_val = []
     q = first_q
     q_ring_val.append(first_q)
-    for i in range(1,num_qs+1):
+    for i in range(1, num_qs+1):
         q += (step_q + delta_q)
         q_ring_val.append(q)
 
@@ -161,13 +161,13 @@ def one_time_corr(num_levels, num_channels, num_qs, img_stack, q_inds):
 
     """
 
-    if (num_channels% 2 != 0):
+    if (num_channels % 2 != 0):
         raise ValueError(" Number of channels(buffers) must be even ")
 
     # total number of channels ( or total number of delay times)
-    tot_channels = (num_levels +1 )*num_channels/2
+    tot_channels = (num_levels + 1)*num_channels/2
 
-    lag_times =[] # delay ( or lag times)
+    lag_times = []  # delay ( or lag times)
     lag = np.arange(1, num_channels + 1)
     lag_times.extend(lag)
     for i in range(2, num_levels+1):
@@ -175,35 +175,35 @@ def one_time_corr(num_levels, num_channels, num_qs, img_stack, q_inds):
         lag_times.extend(lag)
 
     # matrix of auto-correlation function without normalizations
-    G = np.zeros((tot_channels, num_qs), dtype = np.float64)
+    G = np.zeros((tot_channels, num_qs), dtype=np.float64)
     # matrix of past intensity normalizations
-    IAP = np.zeros((tot_channels, num_qs), dtype = np.float64)
+    IAP = np.zeros((tot_channels, num_qs), dtype=np.float64)
     # matrix of future intensity normalizations
-    IAF = np.zeros((tot_channels, num_qs), dtype = np.float64)                                                                                         
+    IAF = np.zeros((tot_channels, num_qs), dtype=np.float64)
     # keeps track of number of terms for averaging
-    num_terms = np.zeros(num_levels, dtype = np.float64)
+    num_terms = np.zeros(num_levels, dtype=np.float64)
 
     # matrix of one-time correlation
-    g2 = np.zeros((tot_channels, num_qs), dtype = np.float64)
+    g2 = np.zeros((tot_channels, num_qs), dtype=np.float64)
 
     # matrix of buffers
-    #buf = np.zeros((num_levels, num_channels, no_pixels),
-                 #  dtype = np.float64)
-    cur = np.zeros((num_channels, num_levels), dtype = np.float64)
+    # buf = np.zeros((num_levels, num_channels, no_pixels),
+    #  dtype = np.float64)
+    cur = np.zeros((num_channels, num_levels), dtype=np.float64)
     cts = np.zeros(num_levels)
 
-    num_imgs = img_stack.shape[0] # number of images(frames)
-    for i in range(1, num_imgs + 1):
+    num_imgs = img_stack.shape[0]  # number of images(frames)
+    for i in range(2, num_imgs):
 
         # delay times for each image
         delay_nums = [x for x in (i - np.array(lag_times)) if x > 0]
 
-        # buffer numbers
-        past_nums = [x for x in (i - np.array(lag_times)) if x > -1]
-        past_nums.pop()
-        past_nums.insert(0, i)
+        # buffer numbersG
+        buf_nums = [x for x in (i - np.array(lag_times)) if x > 0]
+        buf_nums.pop()
+        buf_nums.insert(0, i)
         # updating future intensities
-        IF = img_stack[past_nums]
+        IF = img_stack[buf_nums]
         # updating past intensities
         IP = img_stack[delay_nums]
         IFP = IF*IP
@@ -215,7 +215,7 @@ def one_time_corr(num_levels, num_channels, num_qs, img_stack, q_inds):
 
 if __name__ == "__main__":
     #  image data as a stack
-    img_stack = np.load("img_stack2.npy")
+    img_stack = np.load("img_stack5301_5401.npy")
 
     detector_size = (256, 256)
     pixel_size = (0.0135*8, 0.0135*8)
@@ -227,16 +227,16 @@ if __name__ == "__main__":
     delta_q = 2e-4  # (1/ Angstrom)
     step_q = 2e-4  # (1/ Angstrom)
     tolerance = 0
-    num_qs = 8
-    lag_time = 0.00130068 #(s)
+    num_qs = 8  # number of Q rings
+    lag_time = 0.00130068  # (s)
 
-    num_levels = 4
+    num_levels = 3
     num_channels = 8
 
     q_values, q_inds, num_pixels,\
     q_ring_val = iq_values(detector_size, pixel_size, calibrated_center,
-              wavelength, num_qs, dist_sample, first_q,
-              step_q, delta_q)
+                           wavelength, num_qs, dist_sample, first_q,
+                           step_q, delta_q)
 
     plot_q_rings(q_inds, detector_size)
 
