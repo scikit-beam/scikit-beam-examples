@@ -51,166 +51,32 @@ import logging
 logger = logging.getLogger(__name__)
 import time
 import nsls2.recip as recip
-# import nsls2.timecorr as timecorr
+import nsls2.timecorr as timecorr
 import matplotlib.pyplot as plt
 
 
-def iq_values(detector_size, pixel_size, calibrated_center,
-              wavelength, num_qs, dist_sample, first_q,
-              step_q, delat_q):
+def plot_q_rings(q_inds, detector_size):
     """
     Parameters
     ----------
+    q_inds : ndarray
+        indices of the Q values for the required rings
+
     detector_size : tuple
-        2 element tuple defining no. of pixels(size) in the
-        detector X and Y direction(mm)
+        2 element tuple defining the number of pixels in the detector.
+        Order is (num_columns, num_rows)
 
-    pixel_size : tuple
-       2 element tuple defining the (x y) dimensions of the
-       pixel (mm)
-
-    dist_sample : float
-       distance from the sample to the detector (mm)
-
-    calibrated_center : tuple
-        2 element tuple defining the (x y) center of the
-        detector (mm)
-
-    wavelength : float
-        wavelength of incident radiation (Angstroms)
+    Return
+    ------
+    Plot of  Q rings
     """
-    # delta=40, theta=15, chi = 90, phi = 30, mu = 10.0, gamma=5.0
-    setting_angles = np.array([0., 0., 0., 0., 0., 0.])
-
-    # UB matrix (orientation matrix) 3x3 matrix
-    ub_mat = np.identity(3)
-
-    hkl_val = recip.process_to_q(setting_angles, detector_size,
-                                 pixel_size, calibrated_center,
-                                 dist_sample, wavelength, ub_mat)
-
-    q_val = np.sqrt(hkl_val[:, 0]**2 + hkl_val[:, 1]**2 + hkl_val[:, 2]**2)
-    q_values = q_val.reshape(detector_size[0], detector_size[1])
-
-    q_ring_val = []
-    q = first_q
-    q_ring_val.append(first_q)
-    for i in range(1, num_qs+1):
-        q += (step_q + delta_q)
-        q_ring_val.append(q)
-
-    q_inds = np.digitize(np.ravel(q_values), np.array(q_ring_val))
-    # number of pixels in each Q ring
-    num_pixels = np.bincount(q_inds)
-
-    return q_values, q_inds, num_pixels, q_ring_val
-
-
-def plot_q_rings(q_inds, detector_size):
     q_inds = q_inds.reshape(detector_size[0], detector_size[1])
     plt.title("  Required Q Rings  ")
     plt.imshow(q_inds)
     plt.show()
 
-
-def one_time_corr(num_levels, num_channels, num_qs, img_stack, q_inds):
-    """
-    Parameters
-    ----------
-    num_levels: int
-        number of levels of multiple-taus
-
-    num_channels: int
-        number of channels or number of buffers in auto-correlators
-        normalizations (must be even)
-
-    num_qs : int
-        number of Q rings
-
-    img_stack : ndarray
-        Intensity array of the images
-        dimensions are: [num_img][num_rows][num_cols]
-
-    q_inds : ndarray
-        indices of the Q values for the required rings
-
-    num_pixels : ndarray
-        number of pixels in certain Q ring
-        dimensions are : [num_qs]X1
-
-    Returns
-    -------
-    g2 : ndarray
-        matrix of one-time correlation
-
-    Note
-    ----
-    Standard multiple-tau algorithm is used for one-time intensity
-    auto-correlation functions. To evaluate an estimator for the
-    correlation function separately for each pixel of the exposed
-    detector area needed before analysis. Therefore, standard
-    normalization scheme which leads to noise level lower than
-    those obtained used for that purpose. (Reference 1)
-
-    References: text [1]_
-
-    .. [1] D. Lumma, L.B. Lurio, S.G.J. Mochrie, and M Sutton,
-       "Area detector based photon correlation in the egime of
-       short data batches: Data reduction for dynamic x-ray
-       scattering," Rev. Sci. Instr., vol 71, pp 3274-3289, 2000.
-
-    """
-
-    if (num_channels % 2 != 0):
-        raise ValueError(" Number of channels(buffers) must be even ")
-
-    # total number of channels ( or total number of delay times)
-    tot_channels = (num_levels + 1)*num_channels/2
-
-    lag_times = []  # delay ( or lag times)
-    lag = np.arange(1, num_channels + 1)
-    lag_times.extend(lag)
-    for i in range(2, num_levels+1):
-        lag = np.array([5, 6, 7, 8])*(2**(i-1))
-        lag_times.extend(lag)
-
-    # matrix of auto-correlation function without normalizations
-    G = np.zeros((tot_channels, num_qs), dtype=np.float64)
-    # matrix of past intensity normalizations
-    IAP = np.zeros((tot_channels, num_qs), dtype=np.float64)
-    # matrix of future intensity normalizations
-    IAF = np.zeros((tot_channels, num_qs), dtype=np.float64)
-    # keeps track of number of terms for averaging
-    num_terms = np.zeros(num_levels, dtype=np.float64)
-
-    # matrix of one-time correlation
-    g2 = np.zeros((tot_channels, num_qs), dtype=np.float64)
-
-    # matrix of buffers
-    # buf = np.zeros((num_levels, num_channels, no_pixels),
-    #  dtype = np.float64)
-    cur = np.zeros((num_channels, num_levels), dtype=np.float64)
-    cts = np.zeros(num_levels)
-
-    num_imgs = img_stack.shape[0]  # number of images(frames)
-    for i in range(2, num_imgs):
-
-        # delay times for each image
-        delay_nums = [x for x in (i - np.array(lag_times)) if x > 0]
-
-        # buffer numbersG
-        buf_nums = [x for x in (i - np.array(lag_times)) if x > 0]
-        buf_nums.pop()
-        buf_nums.insert(0, i)
-        # updating future intensities
-        IF = img_stack[buf_nums]
-        # updating past intensities
-        IP = img_stack[delay_nums]
-        IFP = IF*IP
-        #for j in range (0, len(delay_nums)):
-            #G[j] += np.histogram(np.ravel(IF*IP[j]), q_inds)
-
-    return IFP
+def plot_g2(g2):
+    pass
 
 
 if __name__ == "__main__":
@@ -233,11 +99,25 @@ if __name__ == "__main__":
     num_levels = 3
     num_channels = 8
 
-    q_values, q_inds, num_pixels,\
-    q_ring_val = iq_values(detector_size, pixel_size, calibrated_center,
-                           wavelength, num_qs, dist_sample, first_q,
-                           step_q, delta_q)
+    # delta=40, theta=15, chi = 90, phi = 30, mu = 10.0, gamma=5.0
+    setting_angles = np.array([0., 0., 0., 0., 0., 0.])
+
+    # UB matrix (orientation matrix) 3x3 matrix
+    ub_mat = np.identity(3)
+
+    # hkl values for all the pixels
+    hkl_val = recip.process_to_q(setting_angles, detector_size,
+                                 pixel_size, calibrated_center,
+                                 dist_sample, wavelength, ub_mat,
+                                 frame_mode=None)
+
+    # Q values, Q indices for all pixels and Q ring edge values for each ring
+    # and number of pixels for each Q ring
+    q_values, q_inds, q_ring_val , \
+    num_pixels = recip.q_data(hkl_val, num_qs, first_q,
+                           step_q, delta_q, detector_size)
 
     plot_q_rings(q_inds, detector_size)
 
-    G = one_time_corr(num_levels, num_channels, num_qs, img_stack, q_inds)
+    g2 = timecorr.one_time_corr(num_levels, num_channels, num_qs, img_stack,
+                                q_inds, num_pixels)
