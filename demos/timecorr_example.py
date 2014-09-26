@@ -76,10 +76,23 @@ def plot_q_rings(q_inds, detector_size):
     plt.show()
 
 
-def plot_g2(g2)
+def plot_g2(g2):
+    """
+    Parameters
+    ----------
+    g2: ndarray
+        matrix of one-time correlation
+
+    Return
+    ------
+    Plot of 1 time correlation plots for each Q ring
+    """
+
     plt.title(" 1 time correlation plots ")
-    #for i in range(0, num_qs)
-    pass
+    for i in range(0, num_qs):
+        plt.plot(g2(i) + (i*10))
+    plt.show()
+    return
 
 
 if __name__ == "__main__":
@@ -103,7 +116,7 @@ if __name__ == "__main__":
     num_levels = 3
     num_channels = 8
 
-    # setting angles of the defractormeter
+    # setting angles of the diffractometer
     # delta=40, theta=15, chi = 90, phi = 30, mu = 10.0, gamma=5.0
     setting_angles = np.array([0., 0., 0., 0., 0., 0.])
 
