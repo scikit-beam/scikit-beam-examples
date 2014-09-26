@@ -71,11 +71,14 @@ def plot_q_rings(q_inds, detector_size):
     Plot of  Q rings
     """
     q_inds = q_inds.reshape(detector_size[0], detector_size[1])
-    plt.title("  Required Q Rings  ")
+    plt.title(" Required Q Rings  ")
     plt.imshow(q_inds)
     plt.show()
 
-def plot_g2(g2):
+
+def plot_g2(g2)
+    plt.title(" 1 time correlation plots ")
+    #for i in range(0, num_qs)
     pass
 
 
@@ -96,9 +99,11 @@ if __name__ == "__main__":
     num_qs = 8  # number of Q rings
     lag_time = 0.00130068  # (s)
 
+    # for multiple tau analysis num_levels and num_channels
     num_levels = 3
     num_channels = 8
 
+    # setting angles of the defractormeter
     # delta=40, theta=15, chi = 90, phi = 30, mu = 10.0, gamma=5.0
     setting_angles = np.array([0., 0., 0., 0., 0., 0.])
 
@@ -111,8 +116,8 @@ if __name__ == "__main__":
                                  dist_sample, wavelength, ub_mat,
                                  frame_mode=None)
 
-    # Q values, Q indices for all pixels and Q ring edge values for each ring
-    # and number of pixels for each Q ring
+    # Q values, Q indices for all pixels and Q ring edge values
+    # for each ring and number of pixels for each Q ring
     q_values, q_inds, q_ring_val , \
     num_pixels = recip.q_data(hkl_val, num_qs, first_q,
                            step_q, delta_q, detector_size)
