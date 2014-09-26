@@ -161,8 +161,8 @@ for i in range(rows):
             fy = dpc.ifft1D_shift(imy)
                 
             # 5.4. Nonlinear fitting
-            _a, _gx = dpc.nonlinear_fit(ref_fx, fx)
-            _a, _gy = dpc.nonlinear_fit(ref_fy, fy)
+            _a, _gx = dpc.dpc_fit(ref_fx, fx)
+            _a, _gy = dpc.dpc_fit(ref_fy, fy)
                             
             # Store one-point intermediate results
             gx[i, j] = _gx
