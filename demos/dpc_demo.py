@@ -136,8 +136,8 @@ refx, refy = dpc.image_reduction(ref, roi=roi)
 refy = refy[46 : 61]
 
 # 4. 1-D IFFT
-ref_fx = dpc.ifft1D_shift(refx)
-ref_fy = dpc.ifft1D_shift(refy)
+ref_fx = np.fft.fftshift(np.fft.ifft(refx))
+ref_fy = np.fft.fftshift(np.fft.ifft(refy))
 
 # 5. Same calculation on each diffraction pattern
 for i in range(rows):
@@ -157,12 +157,12 @@ for i in range(rows):
             imy = imy[46 : 61]
             
             # 5.3. 1-D IFFT
-            fx = dpc.ifft1D_shift(imx)
-            fy = dpc.ifft1D_shift(imy)
+            fx = np.fft.fftshift(np.fft.ifft(imx))
+            fy = np.fft.fftshift(np.fft.ifft(imy))
                 
             # 5.4. Nonlinear fitting
-            _a, _gx = dpc.dpc_fit(ref_fx, fx)
-            _a, _gy = dpc.dpc_fit(ref_fy, fy)
+            _a, _gx = dpc.nonlinear_fit(ref_fx, fx)
+            _a, _gy = dpc.nonlinear_fit(ref_fy, fy)
                             
             # Store one-point intermediate results
             gx[i, j] = _gx
