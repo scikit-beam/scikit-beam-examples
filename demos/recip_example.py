@@ -190,14 +190,14 @@ if __name__ == "__main__":
                        [114.6735, 91.510209, -90., 0., 0., 2.2065]])
 
     # Data folder path
-    path = "LSCO_Nov12_broker"
+    # path = "LSCO_Nov12_broker"
 
     # intensity of the image stack data
     try:
-        i_stack = np.load(path + "/i_stack.npy")
+        i_stack = np.load(os.path.join("LSCO_Nov12_broker", "i_stack.npy"))
     except IOError:
-        zipfile.ZipFile(path + '.zip').extractall()
-        i_stack = np.load(path + "/i_stack.npy")
+        zipfile.ZipFile(os.path.join("LSCO_Nov12_broker.zip")).extractall()
+        i_stack = np.load(os.path.join("LSCO_Nov12_broker", "i_stack.npy"))
 
     X, Y, Z, grid_mask_data = recip_ex(detector_size, pixel_size,
                                        calibrated_center, dist_sample,
