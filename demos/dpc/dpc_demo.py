@@ -2,7 +2,7 @@
 # ######################################################################
 # Copyright (c) 2014, Brookhaven Science Associates, Brookhaven        #
 # National Laboratory. All rights reserved.                            #
-#                                                                      #
+# #
 # Redistribution and use in source and binary forms, with or without   #
 # modification, are permitted provided that the following conditions   #
 # are met:                                                             #
@@ -34,15 +34,15 @@
 # POSSIBILITY OF SUCH DAMAGE.                                          #
 ########################################################################
 """
-This is an example script utilizing dpc.py for Differential Phase Contrast 
+This is an example script utilizing dpc.py for Differential Phase Contrast
 (DPC) imaging based on Fourier shift fitting.
 
-This script requires a SOFC folder containing the test data in your home 
-directory. The default path for the results (texts and JPEGs) is also your home 
+This script requires a SOFC folder containing the test data in your home
+directory. The default path for the results (texts and JPEGs) is also your home
 directory. It will automatically download the data to your home directory if
 you installed wget and unzip utilities. You can also manually download and
 decompress the data at https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip
-    
+
 Steps
 -----
 1. Set parameters
@@ -56,9 +56,9 @@ Steps
     5.4. Nonlinear fitting
 6. Reconstruct the final phase image
 7. Save intermediate and final results
-    
+
 """
-    
+
 import os
 from os.path import expanduser
 from subprocess import call
@@ -72,55 +72,56 @@ import dpc
 def load_image(filename):
     """
     Load an image
-    
+
     Parameters
     ----------
     filename : string
         the location and name of an image
-    
+
     Return
     ----------
     t : 2-D numpy array
         store the image data
-        
-    """ 
-    
-    if os.path.exists(filename):  
+
+    """
+
+    if os.path.exists(filename):
         t = plt.imread(filename)
-    
+
     else:
         print('Please download and decompress the test data to your home directory\n\
                Google drive link, https://drive.google.com/file/d/0B3v6W1bQwN_AVjdYdERHUDBsMmM/edit?usp=sharing\n\
                Dropbox link, https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip')
-        raise Exception('File not found: %s' % filename) 
-    
+        raise Exception('File not found: %s' % filename)
+
     return t
-    
-    
+
+
 if not os.path.exists(expanduser("~") + '/SOFC/'):
     print('The required test data directory was not found\n\
             Start to download the test data to the home directoty')
-    call('wget https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip -P ~/', shell=True)
-    call('unzip ~/SOFC.zip -d ~/ && rm ~/SOFC.zip', shell=True)    
-   
+    call('wget https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip -P ~/',
+         shell=True)
+    call('unzip ~/SOFC.zip -d ~/ && rm ~/SOFC.zip', shell=True)
+
 
 # 1. Set parameters
 file_format = expanduser("~") + '/SOFC/SOFC_%05d.tif'
-start_point=[1, 0]
-first_image=1
-ref_image=1
-pixel_size=55
-focus_to_det=1.46e6
-dx=0.1
-dy=0.1
+start_point = [1, 0]
+first_image = 1
+ref_image = 1
+pixel_size = 55
+focus_to_det = 1.46e6
+dx = 0.1
+dy = 0.1
 rows = 121
 cols = 121
-energy=19.5
-roi=None
-pad=1
-w=1.
-bad_pixels=None
-solver='Nelder-Mead'
+energy = 19.5
+roi = None
+pad = 1
+w = 1.
+bad_pixels = None
+solver = 'Nelder-Mead'
 
 # Initialize a, gx, gy and phi
 a = np.zeros((rows, cols), dtype='d')
@@ -133,7 +134,7 @@ ref = load_image(file_format % ref_image)
 
 # 3. Dimension reduction along x and y direction
 refx, refy = dpc.image_reduction(ref, roi=roi)
-refy = refy[46 : 61]
+refy = refy[46: 61]
 
 # 4. 1-D IFFT
 ref_fx = np.fft.fftshift(np.fft.ifft(refx))
@@ -143,38 +144,38 @@ ref_fy = np.fft.fftshift(np.fft.ifft(refy))
 for i in range(rows):
     print(i)
     for j in range(cols):
-        
+
         # Calculate diffraction pattern index and get its name
         frame_num = first_image + i * cols + j
         filename = file_format % frame_num
-        
+
         try:
             # 5.1. Read a diffraction pattern
             im = load_image(filename)
-                   
+
             # 5.2. Dimension reduction along x and y direction
             imx, imy = dpc.image_reduction(im, roi=roi)
-            imy = imy[46 : 61]
-            
+            imy = imy[46: 61]
+
             # 5.3. 1-D IFFT
             fx = np.fft.fftshift(np.fft.ifft(imx))
             fy = np.fft.fftshift(np.fft.ifft(imy))
-                
+
             # 5.4. Nonlinear fitting
             _a, _gx = dpc.dpc_fit(ref_fx, fx)
             _a, _gy = dpc.dpc_fit(ref_fy, fy)
-                            
+
             # Store one-point intermediate results
             gx[i, j] = _gx
             gy[i, j] = _gy
             a[i, j] = _a
-        
+
         except Exception as ex:
             print('Failed to calculate %s: %s' % (filename, ex))
             gx[i, j] = 0
             gy[i, j] = 0
             a[i, j] = 0
-    
+
 # Scale gx and gy. Not necessary all the time
 lambda_ = 12.4e-4 / energy
 gx *= - len(ref_fx) * pixel_size / (lambda_ * focus_to_det)
@@ -182,7 +183,7 @@ gy *= len(ref_fy) * pixel_size / (lambda_ * focus_to_det)
 
 # 6. Reconstruct the final phase image
 phi = dpc.recon(gx, gy)
-    
+
 # 7. Save intermediate and final results
 imsave(expanduser("~") + '/phi.jpg', phi)
 np.savetxt(expanduser("~") + '/phi.txt', phi)
