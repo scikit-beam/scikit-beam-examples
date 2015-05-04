@@ -45,28 +45,31 @@ decompress the data at https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip
 
 Steps
 -----
-1. Set parameters
-2. Load the reference image
-3. Dimension reduction along x and y direction
-4. 1-D IFFT
-5. Same calculation on each diffraction pattern
-    5.1. Read a diffraction pattern
-    5.2. Dimension reduction along x and y direction
-    5.3. 1-D IFFT
-    5.4. Nonlinear fitting
-6. Reconstruct the final phase image
-7. Save intermediate and final results
+In this file:
+    1. Set parameters
+    2. Load the reference image
+    3. Save intermediate and final results
 
+in skxray.dpc.dpc_runner:
+    1. Dimension reduction along x and y direction
+    2. 1-D IFFT
+    3. Same calculation on each diffraction pattern
+        3.1. Read a diffraction pattern
+        3.2. Dimension reduction along x and y direction
+        3.3. 1-D IFFT
+        3.4. Nonlinear fitting
+    4. Reconstruct the final phase image
 """
 
 import os
-from os.path import expanduser
 from subprocess import call
-from scipy.misc import imsave
+import scipy
 import numpy as np
 import matplotlib.pyplot as plt
+from pims import ImageSequence
+import zipfile
 
-import dpc
+from skxray import dpc
 
 
 def load_image(filename):
@@ -97,102 +100,63 @@ def load_image(filename):
     return t
 
 
-if not os.path.exists(expanduser("~") + '/SOFC/'):
-    print('The required test data directory was not found\n\
-            Start to download the test data to the home directoty')
-    call('wget https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip -P ~/',
+def unzip(source_filename, verbose=True):
+    with zipfile.ZipFile(source_filename) as zf:
+        num = len(zf.infolist())
+        for idx, member in enumerate(zf.infolist()):
+            if verbose and idx % (num//100) == 0:
+                print("{:3d}% Extracting {}/{}".format(
+                      int(idx/num*100), idx+1, len(zf.infolist())))
+            zf.extract(member)
+
+# download to this folder
+current_folder = os.sep.join(__file__.split(os.sep)[:-1])
+dpc_demo_data_path = os.path.join(current_folder, 'SOFC')
+
+if not os.path.exists(dpc_demo_data_path):
+    sofc_file = os.path.join(current_folder, 'SOFC.zip')
+    print('The required test data directory was not found.'
+          '\nDownloading the test data to %s' % dpc_demo_data_path)
+    # todo make this not print every fraction of a second
+    call(('wget https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip -P %s' %
+          current_folder),
          shell=True)
-    call('unzip ~/SOFC.zip -d ~/ && rm ~/SOFC.zip', shell=True)
+    # unzip it into this directory
+    unzip(sofc_file)
 
 
 # 1. Set parameters
-file_format = expanduser("~") + '/SOFC/SOFC_%05d.tif'
 start_point = [1, 0]
 first_image = 1
-ref_image = 1
-pixel_size = 55
+pixel_size = (55, 55)
 focus_to_det = 1.46e6
-dx = 0.1
-dy = 0.1
-rows = 121
-cols = 121
+scan_xstep = 0.1
+scan_ystep = 0.1
+scan_rows = 121
+scan_cols = 121
 energy = 19.5
 roi = None
-pad = 1
-w = 1.
+padding = 0
+weighting = 1.
 bad_pixels = None
 solver = 'Nelder-Mead'
+images = ImageSequence(dpc_demo_data_path + "/*.tif")
+img_size = images[0].shape
+ref_image = np.ones(img_size)
+scale = True
+negate = True
 
-# Initialize a, gx, gy and phi
-a = np.zeros((rows, cols), dtype='d')
-gx = np.zeros((rows, cols), dtype='d')
-gy = np.zeros((rows, cols), dtype='d')
-phi = np.zeros((rows, cols), dtype='d')
+# 2. Use dpc.dpc_runner
+phi, a = dpc.dpc_runner(ref_image, images, start_point, pixel_size,
+                        focus_to_det, scan_rows, scan_cols, scan_xstep,
+                        scan_ystep, energy, padding, weighting, solver,
+                        roi, bad_pixels, negate, scale)
 
-# 2. Load the reference image
-ref = load_image(file_format % ref_image)
-
-# 3. Dimension reduction along x and y direction
-refx, refy = dpc.image_reduction(ref, roi=roi)
-refy = refy[46: 61]
-
-# 4. 1-D IFFT
-ref_fx = np.fft.fftshift(np.fft.ifft(refx))
-ref_fy = np.fft.fftshift(np.fft.ifft(refy))
-
-# 5. Same calculation on each diffraction pattern
-for i in range(rows):
-    print(i)
-    for j in range(cols):
-
-        # Calculate diffraction pattern index and get its name
-        frame_num = first_image + i * cols + j
-        filename = file_format % frame_num
-
-        try:
-            # 5.1. Read a diffraction pattern
-            im = load_image(filename)
-
-            # 5.2. Dimension reduction along x and y direction
-            imx, imy = dpc.image_reduction(im, roi=roi)
-            imy = imy[46: 61]
-
-            # 5.3. 1-D IFFT
-            fx = np.fft.fftshift(np.fft.ifft(imx))
-            fy = np.fft.fftshift(np.fft.ifft(imy))
-
-            # 5.4. Nonlinear fitting
-            _a, _gx = dpc.dpc_fit(ref_fx, fx)
-            _a, _gy = dpc.dpc_fit(ref_fy, fy)
-
-            # Store one-point intermediate results
-            gx[i, j] = _gx
-            gy[i, j] = _gy
-            a[i, j] = _a
-
-        except Exception as ex:
-            print('Failed to calculate %s: %s' % (filename, ex))
-            gx[i, j] = 0
-            gy[i, j] = 0
-            a[i, j] = 0
-
-# Scale gx and gy. Not necessary all the time
-lambda_ = 12.4e-4 / energy
-gx *= - len(ref_fx) * pixel_size / (lambda_ * focus_to_det)
-gy *= len(ref_fy) * pixel_size / (lambda_ * focus_to_det)
-
-# 6. Reconstruct the final phase image
-phi = dpc.recon(gx, gy)
-
-# 7. Save intermediate and final results
-imsave(expanduser("~") + '/phi.jpg', phi)
-np.savetxt(expanduser("~") + '/phi.txt', phi)
-imsave(expanduser("~") + '/a.jpg', a)
-np.savetxt(expanduser("~") + '/a.txt', a)
-imsave(expanduser("~") + '/gx.jpg', gx)
-np.savetxt(expanduser("~") + '/gx.txt', gx)
-imsave(expanduser("~") + '/gy.jpg', gy)
-np.savetxt(expanduser("~") + '/gy.txt', gy)
+# 3. Save intermediate and final results
+scipy.misc.imsave(os.path.join(current_folder, 'phi.jpg'), phi)
+np.savetxt(os.path.join(current_folder, 'phi.txt'), phi)
+scipy.misc.imsave(os.path.join(current_folder, 'a.jpg'), a)
+np.savetxt(os.path.join(current_folder, 'a.txt'), a)
 
 
 
