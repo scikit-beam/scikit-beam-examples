@@ -34,8 +34,9 @@ to the directory where the ``dpc_demo.py`` file is located.
 
 Output images
 -------------
-Final output image
-![a.jpg](https://www.github.com/scikit-xray-examples/demos/dpc/a.jpg)
+**phase**: The final reconstructed phase image.
+![phase.jpg](https://www.github.com/scikit-xray-examples/demos/dpc/phase.jpg)
 
-phi is what e
-![phi.jpg](https://www.github.com/scikit-xray-examples/demos/dpc/phi.jpg)
+**amplitude.jpg**: Amplitude of the sample transmission function.
+![amplitude.jpg](https://www.github.com/scikit-xray-examples/demos/dpc/amplitude.jpg)
+
