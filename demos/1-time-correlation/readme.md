@@ -5,7 +5,7 @@
 Included files
 --------------
 1. [Multi_tau_one_time_correlation_example.ipynb] (https://github
-   .com/Nikea/scikit-xray-examples/tree/master/demos/time_correlation 
+   .com/Nikea/scikit-xray-examples/tree/master/demos/1-time-correlation 
    /Multi_tau_one_time_correlation_example.ipynb) is an ipython notebook that
     demonstrates using the one-time correlation functions in [scikit-xray] 
     (https://github.com/Nikea/scikit-xray)
