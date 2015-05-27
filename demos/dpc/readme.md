@@ -7,11 +7,14 @@ What it includes
 dpc_demo.py: an example script for conducting DPC using functional modules 
              in dpc.py
              
+dpc_demo.ipynb : An example notebook for analyzing DPC data [link] 
+                 (https://github
+                 .com/Nikea/scikit-xray-examples/blob/master/demos/dpc/dpc_demo.ipynb)
+
 a.jpg, phi.jpg: final results of dpc demo script after processing files in 
                 SOFC/ directory
 
-SOFC/ : data set that will be processed by ``skxray.dpc.dpc_runner``
-
+                  
 
 dpc_demo.py
 -----------
