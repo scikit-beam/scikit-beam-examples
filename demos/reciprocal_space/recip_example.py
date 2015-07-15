@@ -50,6 +50,8 @@ import matplotlib.pyplot as plt
 from skxray import diffraction
 import zipfile
 import six
+import time as ttime
+plt.ion()
 
 if six.PY3:
     raise Exception("This example does not work on python 3")
@@ -136,8 +138,7 @@ def get_data(X, Y, grid_mask_data, plane):
 
     return i_slice, lx
 
-
-if __name__ == "__main__":
+def run():
     H_range = [-0.270, -0.200]
     K_range = [+0.010, -0.010]
     L_range = [+1.370, +1.410]
@@ -216,3 +217,8 @@ if __name__ == "__main__":
 
     plot_slice(x, y, i_slice, lx, H_range, K_range)
     plt.show()
+    ttime.sleep(1)
+
+if __name__ == "__main__":
+    plt.ioff()
+    run()

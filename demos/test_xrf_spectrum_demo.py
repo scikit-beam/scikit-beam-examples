@@ -6,6 +6,3 @@ def test_xrf_spectrum_demo():
     import matplotlib.pyplot as plt
     plt.ion()
     run_demo()
-
-def test_reciprocal_space():
-    from reciprocal_space import recip_example
