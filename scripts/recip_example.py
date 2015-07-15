@@ -42,14 +42,11 @@
     -> process_grid function.
     
 """
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function
 import numpy as np
 import numpy.ma as ma
 import os
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MaxNLocator
 import nsls2.recip as recip
 import nsls2.core as core
 import zipfile
