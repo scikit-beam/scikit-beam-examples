@@ -56,9 +56,11 @@ docs/_build/
 #mac
 .DS_Store
 *~
+__MACOSX/
 
 #pycharm
 .idea/*
 
 # ipython notebook stuff
 .ipynb_checkpoints/
+*.npy
