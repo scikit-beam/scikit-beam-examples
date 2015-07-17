@@ -79,3 +79,6 @@ docs/_build/
 
 #generated documntation files
 doc/resource/api/generated/
+
+#iPython Notebook checkpoints
+.ipynb_checkpoints
