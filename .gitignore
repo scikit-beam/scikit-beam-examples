@@ -30,10 +30,12 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 htmlcov/
 .tox/
+cover/
 .coverage
 .cache
 nosetests.xml
 coverage.xml
+cover/
 
 # Translations
 *.mo
@@ -56,11 +58,24 @@ docs/_build/
 #mac
 .DS_Store
 *~
-__MACOSX/
 
 #pycharm
 .idea/*
 
-# ipython notebook stuff
-.ipynb_checkpoints/
-*.npy
+#Dolphin browser files
+.directory/
+.directory
+
+#Binary data files
+*.volume
+*.am
+*.tiff
+*.tif
+*.dat
+*.DAT
+*.zip
+*.tar.gz
+*.tar
+
+#generated documntation files
+doc/resource/api/generated/
