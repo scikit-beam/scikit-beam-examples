@@ -75,6 +75,7 @@ from clint.textui import progress
 import tempfile
 
 from skxray.core import dpc
+# dump log messages to screen
 dpc.logger.setLevel(dpc.logging.DEBUG)
 handler = dpc.logging.StreamHandler()
 handler.setLevel(dpc.logging.DEBUG)
@@ -170,6 +171,7 @@ def run():
         roi, bad_pixels, negate, scale)
 
     # 3. Save intermediate and final results
+    print('saving dpc output to disk in --> %s' % current_folder)
     scipy.misc.imsave(os.path.join(current_folder, 'phase.jpg'), phase)
     np.savetxt(os.path.join(current_folder, 'phase.txt'), phase)
     scipy.misc.imsave(os.path.join(current_folder, 'amplitude.jpg'), amplitude)
