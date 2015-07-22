@@ -76,6 +76,9 @@ docs/_build/
 *.zip
 *.tar.gz
 *.tar
+*.SPE
+*.setup
+*.volume
 
 #generated documntation files
 doc/resource/api/generated/
