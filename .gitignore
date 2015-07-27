@@ -79,6 +79,7 @@ docs/_build/
 *.SPE
 *.setup
 *.volume
+*.dcm
 
 #generated documntation files
 doc/resource/api/generated/
