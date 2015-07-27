@@ -80,6 +80,7 @@ docs/_build/
 *.setup
 *.volume
 *.dcm
+data/
 
 #generated documntation files
 doc/resource/api/generated/
