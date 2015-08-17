@@ -22,7 +22,7 @@ def download_zip(url, download_path=None):
 if __name__ == "__main__":
     current_folder = os.sep.join(__file__.split(os.sep)[:-1])
     dpc_demo_data_path = os.path.join(current_folder, 'SOFC')
-    zip_file_url = 'https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip?dl=1'
+    zip_file_url = 'https://www.dropbox.com/s/ntvk7866h23jdpr/SOFC.zip?dl=0'
     download_path = os.path.join(current_folder, 'SOFC.zip')
     if not os.path.exists(dpc_demo_data_path):
         temp = download_zip(zip_file_url, download_path=download_path)
