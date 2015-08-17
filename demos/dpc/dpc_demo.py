@@ -127,9 +127,11 @@ def run():
     # download to this folder
     current_folder = os.sep.join(__file__.split(os.sep)[:-1])
     dpc_demo_data_path = os.path.join(current_folder, 'SOFC')
-    zip_file_url = 'https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip?dl=1'
     if not os.path.exists(dpc_demo_data_path):
-        download_zip(zip_file_url, current_folder)
+        zip_file_url = 'https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip?dl=1'
+        import download
+        download.run()
+        # download_zip(zip_file_url, current_folder)
 
     # 1. Set parameters
     start_point = [1, 0]

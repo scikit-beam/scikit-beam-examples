@@ -18,16 +18,20 @@ def download_zip(url, download_path=None):
                 f.flush()
     return download_path
     
-    
-if __name__ == "__main__":
+def run(unzip_path=None):
     current_folder = os.sep.join(__file__.split(os.sep)[:-1])
-    dpc_demo_data_path = os.path.join(current_folder, 'SOFC')
-    zip_file_url = 'https://www.dropbox.com/s/ntvk7866h23jdpr/SOFC.zip?dl=0'
+    zip_file_url = 'https://www.dropbox.com/s/ntvk7866h23jdpr/SOFC.zip?dl=1'
     download_path = os.path.join(current_folder, 'SOFC.zip')
-    if not os.path.exists(dpc_demo_data_path):
+    if not os.path.exists(download_path):
         temp = download_zip(zip_file_url, download_path=download_path)
-        z = zipfile.ZipFile(temp)
-        print("extracting to --> %s" % dpc_demo_data_path)
-        z.extractall(path=dpc_demo_data_path)
+        
+    if unzip_path is None:
+        unzip_path = os.path.join(current_folder, 'SOFC')
+    if not os.path.exists(unzip_path):
+        z = zipfile.ZipFile(download_path)
+        print("extracting to --> %s" % unzip_path)
+        z.extractall(path=unzip_path)
 
-    
+
+if __name__ == "__main__":
+    run()
