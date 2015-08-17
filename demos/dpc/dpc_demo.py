@@ -67,9 +67,14 @@ import scipy
 import numpy as np
 import matplotlib.pyplot as plt
 from pims import ImageSequence
+
 import zipfile
+import requests
+from clint.textui import progress
+import tempfile
 
 from skxray.core import dpc
+# dump log messages to screen
 dpc.logger.setLevel(dpc.logging.DEBUG)
 handler = dpc.logging.StreamHandler()
 handler.setLevel(dpc.logging.DEBUG)
@@ -103,31 +108,28 @@ def load_image(filename):
     return t
 
 
-def unzip(source_filename, verbose=True):
-    with zipfile.ZipFile(source_filename) as zf:
-        num = len(zf.infolist())
-        for idx, member in enumerate(zf.infolist()):
-            if verbose and idx % (num//100) == 0:
-                print("{:3d}% Extracting {}/{}".format(
-                      int(idx/num*100), idx+1, len(zf.infolist())))
-            zf.extract(member)
+def download_zip(url, path):
+    r = requests.get(url, stream=True)
+    temp = tempfile.NamedTemporaryFile(suffix='.zip')
+    print('Downloading url --> %s\nto --> %s' % (url, temp.name))
+    with open(temp.name, 'wb') as f:
+        total_length = int(r.headers.get('content-length'))
+        for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
+            if chunk:
+                f.write(chunk)
+                f.flush()
+    z = zipfile.ZipFile(temp)
+    print("extracting to --> %s" % path)
+    z.extractall(path=path)
+
 
 def run():
     # download to this folder
     current_folder = os.sep.join(__file__.split(os.sep)[:-1])
     dpc_demo_data_path = os.path.join(current_folder, 'SOFC')
-
+    zip_file_url = 'https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip?dl=1'
     if not os.path.exists(dpc_demo_data_path):
-        sofc_file = os.path.join(current_folder, 'SOFC.zip')
-        print('The required test data directory was not found.'
-              '\nDownloading the test data to %s' % dpc_demo_data_path)
-        # todo make this not print every fraction of a second
-        call(('wget https://www.dropbox.com/s/963c4ymfmbjg5dm/SOFC.zip -P %s' %
-              current_folder),
-             shell=True)
-        # unzip it into this directory
-        unzip(sofc_file)
-
+        download_zip(zip_file_url, current_folder)
 
     # 1. Set parameters
     start_point = [1, 0]
@@ -158,6 +160,7 @@ def run():
         roi, bad_pixels, negate, scale)
 
     # 3. Save intermediate and final results
+    print('saving dpc output to disk in --> %s' % current_folder)
     scipy.misc.imsave(os.path.join(current_folder, 'phase.jpg'), phase)
     np.savetxt(os.path.join(current_folder, 'phase.txt'), phase)
     scipy.misc.imsave(os.path.join(current_folder, 'amplitude.jpg'), amplitude)

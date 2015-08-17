@@ -64,3 +64,6 @@ __MACOSX/
 # ipython notebook stuff
 .ipynb_checkpoints/
 *.npy
+
+# dpc demo data
+SOFC/
