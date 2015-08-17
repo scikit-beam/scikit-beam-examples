@@ -106,6 +106,7 @@ def plot_slice(x, y, i_slice, lx, H_range, K_range):
     cnt = subp.contourf(x, y, i_slice, np.linspace(i_slice_range[0],
                                                    i_slice_range[1],
                                                    50, endpoint=True),
+                        cmap='hot',
                         extend='both')
     subp.axis('scaled')
     subp.set_xlim(H_range)
@@ -195,15 +196,11 @@ def run():
     # path = "LSCO_Nov12_broker"
 
     # intensity of the image stack data
-    folder = os.path.join(*__file__.split(os.sep)[:-1])
     try:
-        i_stack = np.load(os.path.join(
-            folder, "LSCO_Nov12_broker", "i_stack.npy"))
+        i_stack = np.load(os.path.join("LSCO_Nov12_broker", "i_stack.npy"))
     except IOError:
-        zipfile.ZipFile(os.path.join(
-            folder, "LSCO_Nov12_broker.zip")).extractall()
-        i_stack = np.load(os.path.join(
-            folder, "LSCO_Nov12_broker", "i_stack.npy"))
+        zipfile.ZipFile(os.path.join("LSCO_Nov12_broker.zip")).extractall()
+        i_stack = np.load(os.path.join("LSCO_Nov12_broker", "i_stack.npy"))
 
     X, Y, Z, grid_mask_data = recip_ex(detector_size, pixel_size,
                                        calibrated_center, dist_sample,
