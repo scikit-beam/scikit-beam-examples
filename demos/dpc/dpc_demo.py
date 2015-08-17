@@ -70,7 +70,6 @@ from pims import ImageSequence
 
 import zipfile
 import requests
-from io import StringIO
 from clint.textui import progress
 import tempfile
 
