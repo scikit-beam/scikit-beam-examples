@@ -109,16 +109,6 @@ def load_image(filename):
     return t
 
 
-def unzip(source_filename, verbose=True):
-    with zipfile.ZipFile(source_filename) as zf:
-        num = len(zf.infolist())
-        for idx, member in enumerate(zf.infolist()):
-            if verbose and idx % (num//100) == 0:
-                print("{:3d}% Extracting {}/{}".format(
-                      int(idx/num*100), idx+1, len(zf.infolist())))
-            zf.extract(member)
-
-
 def download_zip(url, path):
     r = requests.get(url, stream=True)
     temp = tempfile.NamedTemporaryFile(suffix='.zip')
