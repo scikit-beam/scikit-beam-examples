@@ -20,7 +20,7 @@ def download_zip(url, download_path=None):
     return download_path
     
 
-def run(unzip_path=None):
+def run(data_folder=None):
     print("__file__")
     current_folder = os.sep.join(__file__.split(os.sep)[:-1])
     # path = os.path.abspath(sys.modules['__main__'].__file__)
@@ -30,16 +30,17 @@ def run(unzip_path=None):
     download_path = os.path.join(current_folder, 'Duke_data.zip')
     if not os.path.exists(download_path):
         temp = download_zip(zip_file_url, download_path=download_path)
-    if unzip_path is None:
-        unzip_path = current_folder
-    if not os.path.exists(unzip_path):
+    if data_folder is None:
+        data_folder = os.path.join(current_folder, 'Duke_data')
+    print('current_folder = %s' % current_folder)
+    if not os.path.exists(data_folder):
         z = zipfile.ZipFile(download_path)
-        print("extracting to --> %s" % unzip_path)
+        print("extracting to --> %s" % current_folder)
         files = [f.filename for f in z.filelist
                  if (not f.filename.split(os.path.sep)[-1].startswith('.')
                  and f.filename.endswith(".npy"))]
         for f in files:
-            z.extract(f, path=unzip_path)
+            z.extract(f, path=current_folder)
 
     
 if __name__ == "__main__":
