@@ -3,7 +3,6 @@ import os
 import importlib
 import subprocess
 import zipfile
-import zipfile
 import requests
 import tempfile
 from clint.textui import progress
