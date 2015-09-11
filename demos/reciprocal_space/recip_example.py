@@ -34,35 +34,32 @@
 ########################################################################
 
 """
-    
-    This is an example of using real experimental data for the six angles
-    (motor position) and image stack to plot the HK plane. Here
-    nsls2.recip.py -> process_to_q function is used to convert to Q
-    (reciprocal space) and then that data is gridded using nsls2.core.py
-    -> process_grid function.
-    
+
+This is an example of using real experimental data for the six angles
+(motor position) and image stack to plot the HK plane. Here
+nsls2.recip.py -> process_to_q function is used to convert to Q
+(reciprocal space) and then that data is gridded using nsls2.core.py
+-> process_grid function.
+
 """
 from __future__ import absolute_import, division, print_function
 import numpy as np
 import numpy.ma as ma
 import os
 import matplotlib.pyplot as plt
-from skxray import diffraction
+from skxray.core import recip
+from skxray.core.utils import grid3d
 import zipfile
 import six
 import time as ttime
-plt.ion()
-
-if six.PY3:
-    raise Exception("This example does not work on python 3")
 
 
 def recip_ex(detector_size, pixel_size, calibrated_center, dist_sample,
              ub_mat, wavelength, motors, i_stack, H_range, K_range, L_range):
     # convert to Q space
-    q_values = diffraction.process_to_q(motors, detector_size, pixel_size,
-                                        calibrated_center, dist_sample,
-                                        wavelength, ub_mat)
+    q_values = recip.process_to_q(motors, detector_size, pixel_size,
+                                  calibrated_center, dist_sample,
+                                  wavelength, ub_mat)
 
     # minimum and maximum values of the voxel
     q_min = np.array([H_range[0], K_range[0], L_range[0]])
@@ -73,7 +70,7 @@ def recip_ex(detector_size, pixel_size, calibrated_center, dist_sample,
 
     # process the grid values
     (grid_data, grid_occu, std_err,
-     grid_out, bounds) = diffraction.grid3d(q_values, i_stack, dqn[0], dqn[1],
+     grid_out, bounds) = grid3d(q_values, i_stack, dqn[0], dqn[1],
                                             dqn[2])
 
     grid = np.mgrid[0:dqn[0], 0:dqn[1], 0:dqn[2]]
@@ -106,6 +103,7 @@ def plot_slice(x, y, i_slice, lx, H_range, K_range):
     cnt = subp.contourf(x, y, i_slice, np.linspace(i_slice_range[0],
                                                    i_slice_range[1],
                                                    50, endpoint=True),
+                        cmap='hot',
                         extend='both')
     subp.axis('scaled')
     subp.set_xlim(H_range)
@@ -123,6 +121,7 @@ def plot_slice(x, y, i_slice, lx, H_range, K_range):
     cbar.ax.tick_params(labelsize=8)
 
 
+
 def get_data(X, Y, grid_mask_data, plane):
     HKL = 'HKL'
     for i in plane:
@@ -137,6 +136,8 @@ def get_data(X, Y, grid_mask_data, plane):
     lx = eval(plane[0])
 
     return i_slice, lx
+
+
 
 def run():
     H_range = [-0.270, -0.200]
@@ -195,15 +196,13 @@ def run():
     # path = "LSCO_Nov12_broker"
 
     # intensity of the image stack data
-    folder = os.path.join(*__file__.split(os.sep)[:-1])
+    run_location = os.getcwd()
+    rest_of_path = os.path.join(*__file__.split(os.sep)[:-1])
     try:
-        i_stack = np.load(os.path.join(
-            folder, "LSCO_Nov12_broker", "i_stack.npy"))
+        i_stack = np.load(os.path.join(run_location, rest_of_path, "LSCO_Nov12_broker", "i_stack.npy"))
     except IOError:
-        zipfile.ZipFile(os.path.join(
-            folder, "LSCO_Nov12_broker.zip")).extractall()
-        i_stack = np.load(os.path.join(
-            folder, "LSCO_Nov12_broker", "i_stack.npy"))
+        zipfile.ZipFile(os.path.join("LSCO_Nov12_broker.zip")).extractall()
+        i_stack = np.load(os.path.join("LSCO_Nov12_broker", "i_stack.npy"))
 
     X, Y, Z, grid_mask_data = recip_ex(detector_size, pixel_size,
                                        calibrated_center, dist_sample,
@@ -220,5 +219,4 @@ def run():
     ttime.sleep(1)
 
 if __name__ == "__main__":
-    plt.ioff()
     run()
