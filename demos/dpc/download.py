@@ -20,6 +20,7 @@ def download_zip(url, download_path=None):
     
 def run(unzip_path=None):
     current_folder = os.sep.join(__file__.split(os.sep)[:-1])
+    print('current_folder = %s' % current_folder)
     zip_file_url = 'https://www.dropbox.com/s/ntvk7866h23jdpr/SOFC.zip?dl=1'
     download_path = os.path.join(current_folder, 'SOFC.zip')
     if not os.path.exists(download_path):
@@ -30,7 +31,9 @@ def run(unzip_path=None):
     if not os.path.exists(unzip_path):
         z = zipfile.ZipFile(download_path)
         print("extracting to --> %s" % unzip_path)
-        z.extractall(path=unzip_path)
+        z.extractall()
+    else:
+        print('%s does not exist' % unzip_path)
 
 
 if __name__ == "__main__":
