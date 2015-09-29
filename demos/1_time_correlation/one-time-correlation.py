@@ -35,7 +35,7 @@ labeled_roi_array = roi.rings(
     edges, (y_center, x_center), img_stack.shape[1:])
 
 # extarct the ROI's lables and pixel indices corresponding to those labels
-roi_indices, pixel_list = corr.extract_label_indices(labeled_roi_array)
+roi_indices, pixel_list = roi.extract_label_indices(labeled_roi_array)
 
 
 # define the ROIs
@@ -55,7 +55,7 @@ labeled_roi_array = roi.rings(
     edges, (y_center, x_center), img_stack.shape[1:])
 
 # extarct the ROI's lables and pixel indices corresponding to those labels
-roi_indices, pixel_list = corr.extract_label_indices(labeled_roi_array)
+roi_indices, pixel_list = roi.extract_label_indices(labeled_roi_array)
 
 def overlay_rois(ax, inds, pix_list, img_dim, image):
     """
