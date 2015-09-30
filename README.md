@@ -10,7 +10,7 @@ library, it seems sensible to separate these scientific datasets.
 * [dpc] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/dpc/dpc_demo.ipynb)
 * [Powder diffraction calibration] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/powder_calibration/D_estimate_demo.ipynb) Note that the tilt calculation has not yet been resolved
 * [Speckle plotting tools] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/speckle/speckle-plotting.ipynb)
-* [XSVS X-ray Speckle Visibility Spectroscopy] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/speckle/X-ray_Speckle_Visibility_Spectroscopy.ipynb)
+* [X-ray Speckle Visibility Spectroscopy(XSVS)] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/speckle/X-ray_Speckle_Visibility_Spectroscopy.ipynb)
 * [Plot the HK plane - Reciprocal space example] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/reciprocal_space/recip_example.ipynb)
 * [X-ray florescence spectrum] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/xrf/plot_xrf_spectrum.ipynb)
 * [Generate ROI labeled arrays] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/Generate_ROI_labeled_arrays.ipynb)
