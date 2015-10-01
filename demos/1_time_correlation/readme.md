@@ -5,12 +5,12 @@
 Included files
 --------------
 1. [Multi_tau_one_time_correlation_example.ipynb] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/1_time_correlation/Multi_tau_one_time_correlation_example.ipynb)
-    is an example notebook that demonstrates using the one-time correlation functions in [scikit-xray](https://github.com/scikit-xray/scikit-xray)
+    is an example notebook that demonstrates using the one-time correlation functions in [scikit-xray](https://github.com/scikit-xray/scikit-xray).
 1. ``100_500_NIPA_GEL.npy`` is a pickled numpy dataset from @afluerasu that
-   is used in the 1-time correlation demo
+   is used in the 1-time correlation demo.
 1. [XPCS fitting] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/1_time_correlation/XPCS_fitting_with_lmfit.ipynb)
-    is an example notebook that demonstrates XPCS data which are fitted with intermediate scattering factor model function in [scikit-xray](https://github.com/scikit-xray/scikit-xray)
-     using [lmfit Model] (http://lmfit.github.io/lmfit-py/model.html)
+   is an example notebook that demonstrates XPCS data which are fitted with intermediate scattering factor model function in [scikit-xray](https://github.com/scikit-xray/scikit-xray)
+   using [lmfit Model] (http://lmfit.github.io/lmfit-py/model.html).
 
 Relevant papers
 ---------------
