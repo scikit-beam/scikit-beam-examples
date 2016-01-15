@@ -1,7 +1,7 @@
 language: python
 sudo: false
 global:
-  secure: "fpRSslyMZgih0AJYMWRci9IGFhE3A503/l0D08jK4v7hvprI90wzy9rbcSvHe2KG8BKqG7s0Uqu+4g5SkLvo+DDdZZVX+BcRQhZviz/b/2N3CcAQzb8cGqlvOwSmARJJaum/K30wd3em/q/RX+9HxQ3RsfjokAtvLNKhKtQ/kdo="
+  secure: "OwcNfLq3nPhDkIwLA2In6YFB1+o9/J5vzHEUxCD0KNRrA1XTKbF1qWJcetUY4bTI/TUdMTTLU1WJ9BTIJVkivmLGzgmjluCyC0kaXe7+qZLQnoLjUM4wBpoT53bZ8XTCJQ7gKwQ8CyPK7EEDyINKUgHtPrDVMyoee9EsBH4sJWA="
 
 python:
   - 3.5
