@@ -16,6 +16,6 @@ install:
   # - cat ~/.travis/config.yml
   - echo "y" | travis login --github-token $GH_TOKEN
 script:
-  - if [ $TRAVIS_BRANCH == 'rebuild-docs-on-merge' ] && [ $TRAVIS_PULL_REQUEST == 'false' ]; then
+  - if [ $TRAVIS_BRANCH == 'master' ] && [ $TRAVIS_PULL_REQUEST == 'false' ]; then
       python restart_travis.py;
     fi;
