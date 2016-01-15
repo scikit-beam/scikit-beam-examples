@@ -8,8 +8,13 @@ python:
   - 3.5
 install:
   - gem install travis
-  - ls -la ~/
-  - cat ~/.travis/config.yml
-  - travis login --github-token $GH_TOKEN --yes
+  # - ls -la ~/
+  # trick travis CLI into thinking that I have already said yes/no to the
+  # request to install the command line completion
+  - mkdir ~/.travis
+  - echo "---
+checked_completion: true" > ~/.travis/config.yml
+  # - cat ~/.travis/config.yml
+  - travis login --github-token $GH_TOKEN
 script:
   - python restart_travis.py
