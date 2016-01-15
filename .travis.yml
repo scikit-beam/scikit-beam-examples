@@ -1,7 +1,8 @@
 language: python
 sudo: false
-global:
-  secure: "OwcNfLq3nPhDkIwLA2In6YFB1+o9/J5vzHEUxCD0KNRrA1XTKbF1qWJcetUY4bTI/TUdMTTLU1WJ9BTIJVkivmLGzgmjluCyC0kaXe7+qZLQnoLjUM4wBpoT53bZ8XTCJQ7gKwQ8CyPK7EEDyINKUgHtPrDVMyoee9EsBH4sJWA="
+env:
+  global:
+    secure: "OwcNfLq3nPhDkIwLA2In6YFB1+o9/J5vzHEUxCD0KNRrA1XTKbF1qWJcetUY4bTI/TUdMTTLU1WJ9BTIJVkivmLGzgmjluCyC0kaXe7+qZLQnoLjUM4wBpoT53bZ8XTCJQ7gKwQ8CyPK7EEDyINKUgHtPrDVMyoee9EsBH4sJWA="
 
 python:
   - 3.5
