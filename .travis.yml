@@ -3,6 +3,7 @@ sudo: false
 
 python:
   - 3.5
-
+install:
+  - gem install travis
 script:
   - python restart_travis.py
