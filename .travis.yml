@@ -6,6 +6,7 @@ global:
 python:
   - 3.5
 install:
+  - env
   - gem install travis
   - travis login --github-token $GH_TOKEN
 script:
