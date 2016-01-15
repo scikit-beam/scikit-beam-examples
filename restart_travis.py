@@ -20,7 +20,7 @@ else:
     raise ValueError("No python 3.5 builds found")
 
 restart_message = subprocess.check_output(
-    ['travis', 'restart', build_number, ' -r', 'scikit-beam/scikit-beam']
+    ['travis', 'restart', str(build_number), '-r', 'scikit-beam/scikit-beam']
 ).decode()
 
 print(restart_message)
