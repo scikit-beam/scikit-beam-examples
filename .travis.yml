@@ -8,6 +8,7 @@ python:
   - 3.5
 install:
   - gem install travis
+  - ls -la ~/
   - cat ~/.travis/config.yml
   - travis login --github-token $GH_TOKEN --yes
 script:
