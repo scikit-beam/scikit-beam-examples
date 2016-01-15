@@ -12,15 +12,15 @@ for line in master_status.split('\n'):
     # #1493.3 passed:  3 min          python: 3.5, os: linux
     # so that I can grab the number at the front, 1493.3 and restart it
     if 'python: 3.5' in line:
-        build_number, job_number = line.split()[0][1:].split('.')
-        print(build_number, job_number)
+        build_number = line.split()[0][1:]
+        print(build_number)
         break
 else:
     print(master_status)
     raise ValueError("No python 3.5 builds found")
 
 restart_message = subprocess.check_output(
-    ['travis', 'restart', master_status, '-r', 'scikit-beam/scikit-beam']
+    ['travis', 'restart', build_number, ' -r', 'scikit-beam/scikit-beam']
 ).decode()
 
 print(restart_message)
