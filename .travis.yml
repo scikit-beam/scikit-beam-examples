@@ -1,9 +1,12 @@
 language: python
 sudo: false
+global:
+  secure: "fpRSslyMZgih0AJYMWRci9IGFhE3A503/l0D08jK4v7hvprI90wzy9rbcSvHe2KG8BKqG7s0Uqu+4g5SkLvo+DDdZZVX+BcRQhZviz/b/2N3CcAQzb8cGqlvOwSmARJJaum/K30wd3em/q/RX+9HxQ3RsfjokAtvLNKhKtQ/kdo="
 
 python:
   - 3.5
 install:
   - gem install travis
+  - travis login --github-token $GH_TOKEN
 script:
   - python restart_travis.py
