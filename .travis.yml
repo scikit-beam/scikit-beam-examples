@@ -7,8 +7,8 @@ env:
 python:
   - 3.5
 install:
-  - env
   - gem install travis
+  - cat ~/.travis/config.yml
   - travis login --github-token $GH_TOKEN --yes
 script:
   - python restart_travis.py
