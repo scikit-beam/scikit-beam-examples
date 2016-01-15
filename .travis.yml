@@ -14,6 +14,6 @@ install:
   # - mkdir ~/.travis
   # - echo "checked_completion: true" > ~/.travis/config.yml
   # - cat ~/.travis/config.yml
-  - travis login --github-token $GH_TOKEN | y
+  - echo "y" | travis login --github-token $GH_TOKEN
 script:
   - python restart_travis.py
