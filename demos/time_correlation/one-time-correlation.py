@@ -4,8 +4,8 @@ from matplotlib.ticker import MaxNLocator
 from matplotlib.colors import LogNorm
 import matplotlib.pyplot as plt
 import matplotlib.patches as mp
-import skxray.core.correlation as corr
-import skxray.core.roi as roi
+import skbeam.core.correlation as corr
+import skbeam.core.roi as roi
 # it would be great to have a link to what this multi-tau scheme is!
 num_levels = 7
 num_bufs = 8
