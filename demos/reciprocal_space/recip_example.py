@@ -47,8 +47,8 @@ import numpy as np
 import numpy.ma as ma
 import os
 import matplotlib.pyplot as plt
-from skxray.core import recip
-from skxray.core.utils import grid3d
+from skbeam.core import recip
+from skbeam.core.utils import grid3d
 import zipfile
 import six
 import time as ttime
