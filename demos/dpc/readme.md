@@ -9,7 +9,7 @@ dpc_demo.py: an example script for conducting DPC using functional modules
              
 dpc_demo.ipynb : An example notebook for analyzing DPC data [link] 
                  (https://github
-                 .com/Nikea/scikit-xray-examples/blob/master/demos/dpc/dpc_demo.ipynb)
+                 .com/Nikea/scikit-beam-examples/blob/master/demos/dpc/dpc_demo.ipynb)
 
 a.jpg, phi.jpg: final results of dpc demo script after processing files in 
                 SOFC/ directory
@@ -19,7 +19,7 @@ a.jpg, phi.jpg: final results of dpc demo script after processing files in
 dpc_demo.py
 -----------
 This script downloads an example data set (if it is not already present), 
-sets up some state and calls ``skxray.dpc.dpc_runner`` to conduct an example 
+sets up some state and calls ``skbeam.dpc.dpc_runner`` to conduct an example 
 DPC calculation using the data set that was published in (not sure where to 
 find that paper...)
 
@@ -38,8 +38,8 @@ to the directory where the ``dpc_demo.py`` file is located.
 Output images
 -------------
 **phase**: The final reconstructed phase image.
-![phase.jpg](https://www.github.com/scikit-xray-examples/demos/dpc/phase.jpg)
+![phase.jpg](https://www.github.com/scikit-beam-examples/demos/dpc/phase.jpg)
 
 **amplitude.jpg**: Amplitude of the sample transmission function.
-![amplitude.jpg](https://www.github.com/scikit-xray-examples/demos/dpc/amplitude.jpg)
+![amplitude.jpg](https://www.github.com/scikit-beam-examples/demos/dpc/amplitude.jpg)
 
