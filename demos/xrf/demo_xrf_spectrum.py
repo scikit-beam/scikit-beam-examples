@@ -38,8 +38,8 @@
 from __future__ import absolute_import, division, print_function
 import numpy as np
 
-from skxray.core.constants import XrfElement
-from skxray.core.fitting import gaussian
+from skbeam.core.constants import XrfElement
+from skbeam.core.fitting import gaussian
 
 
 def get_line(ax, name, incident_energy):

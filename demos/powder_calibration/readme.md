@@ -9,10 +9,10 @@ tilt calculation
 Included files
 --------------
 1. [D_estimate_demo.ipynb] (https://github
-   .com/Nikea/scikit-xray-examples/tree/master/demos/powder-calibration 
+   .com/Nikea/scikit-beam-examples/tree/master/demos/powder-calibration 
    /D_estimate_demo.ipynb) is an ipython notebook that demonstrates the 
    powder diffraction calibration functionality that currently exists in 
-   [scikit-xray] (https://github.com/Nikea/scikit-xray)
+   [scikit-beam] (https://github.com/Nikea/scikit-beam)
 1. ``Si_STD_d204-00002.tif`` is a Silicon powder calibration standard (as you
    can probably guess from the filename) that was taken at a 
    sample-to-detector distance of 204 mm

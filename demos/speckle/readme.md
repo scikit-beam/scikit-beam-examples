@@ -4,10 +4,10 @@ Speckle Analysis and X-ray Speckle Visibility Spectroscopy(XSVS)
 
 Included files
 --------------
-1. [speckle-plotting.ipynb] (https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/speckle/speckle-plotting.ipynb)
+1. [speckle-plotting.ipynb] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/speckle/speckle-plotting.ipynb)
     is an example notebook for demonstrates plotting helper functions for speckle analysis using xray_vision.mpl_plotting.speckle module, [xray_vision] (https://github.com/Nikea/xray-vision).
-1. [X-ray_Speckle_Visibility_Spectroscopy.ipynb](https://github.com/scikit-xray/scikit-xray-examples/blob/master/demos/speckle/X-ray_Speckle_Visibility_Spectroscopy.ipynb)
-    is an example notebook demonstrates XSVS analysis using functions in skxray.core.speckle module, [scikit-xray] (https://github.com/scikit-xray/scikit-xray).
+1. [X-ray_Speckle_Visibility_Spectroscopy.ipynb](https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/speckle/X-ray_Speckle_Visibility_Spectroscopy.ipynb)
+    is an example notebook demonstrates XSVS analysis using functions in skbeam.core.speckle module, [scikit-beam] (https://github.com/scikit-beam/scikit-beam).
 1. ``download.py`` to download data sets from @afluerasu that to run above two example notebooks.
 
 Relevant papers

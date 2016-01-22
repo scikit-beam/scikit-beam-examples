@@ -50,7 +50,7 @@ In this file:
     2. Load the reference image
     3. Save intermediate and final results
 
-in skxray.dpc.dpc_runner:
+in skbeam.dpc.dpc_runner:
     1. Dimension reduction along x and y direction
     2. 1-D IFFT
     3. Same calculation on each diffraction pattern
@@ -73,7 +73,7 @@ import requests
 from clint.textui import progress
 import tempfile
 
-from skxray.core import dpc
+from skbeam.core import dpc
 # dump log messages to screen
 dpc.logger.setLevel(dpc.logging.DEBUG)
 handler = dpc.logging.StreamHandler()
