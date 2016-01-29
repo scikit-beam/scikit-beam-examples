@@ -15,7 +15,7 @@ library, it seems sensible to separate these scientific datasets.
 * [X-ray florescence spectrum] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/xrf/plot_xrf_spectrum.ipynb)
 * [Generate ROI labeled arrays] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/Generate_ROI_labeled_arrays.ipynb)
 * [2-time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/two-time-correlation.ipynb)
-* [Removing bad images - one time correlation] (https://github.com/sameera2004/scikit-beam-examples/blob/bad_imgs_correlation/demos/time_correlation/Removing_bad_images_one_time_correlation.ipynb)
+* [Removing bad images - one time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/Removing_bad_images_one_time_correlation.ipynb)
 
 License
 -------
