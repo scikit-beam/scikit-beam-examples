@@ -11,7 +11,7 @@ Included files
 1. [XPCS fitting] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/XPCS_fitting_with_lmfit.ipynb)
    is an example notebook that demonstrates XPCS data which are fitted with intermediate scattering factor model function in [scikit-beam](https://github.com/scikit-beam/scikit-beam)
    using [lmfit Model] (http://lmfit.github.io/lmfit-py/model.html).
-1. [Two time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/two-time-correlation.ipynb
+1. [Two time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/two-time-correlation.ipynb)
    is an example notebook that demonstrates two time correlation function in [scikit-beam](https://github.com/scikit-beam/scikit-beam).
 1. [Partial multi tau] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/partial-multi-tau.ipynb)
     is an example notebook that demonstrates the multi tau correlation function use partial data.
