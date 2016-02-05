@@ -13,8 +13,10 @@ Included files
    using [lmfit Model] (http://lmfit.github.io/lmfit-py/model.html).
 1. [Two time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/two-time-correlation.ipynb)
    is an example notebook that demonstrates two time correlation function in [scikit-beam](https://github.com/scikit-beam/scikit-beam).
-1. [Partial multi tau] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/partial-multi-tau.ipynb)
-    is an example notebook that demonstrates the multi tau correlation function use partial data.
+1. [Partial multi tau one time] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/partial-multi-tau.ipynb)
+    is an example notebook that demonstrates the multi tau one time correlation function use partial data.
+1. [Partial multi tau two time] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/two-time-partial-data.ipynb)
+    is an example notebook that demonstrates the multi tau two time correlation function use partial data.
 1. [Removing bad images - one time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/Removing_bad_images_one_time_correlation.ipynb)
     is an example notebook that demonstrates removing bad images for one time correlation analysis
 1. [Check removing bad images using the same image 10000 times - one time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/Check_remove_bad_imgs_using_same_image.ipynb)
