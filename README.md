@@ -16,6 +16,8 @@ library, it seems sensible to separate these scientific datasets.
 * [Generate ROI labeled arrays] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/Generate_ROI_labeled_arrays.ipynb)
 * [2-time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/two-time-correlation.ipynb)
 * [Removing bad images - one time correlation] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/Removing_bad_images_one_time_correlation.ipynb)
+* [Partial multi tau one time] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/partial-multi-tau.ipynb)
+* [Partial multi tau two time] (https://github.com/scikit-beam/scikit-beam-examples/blob/master/demos/time_correlation/two-time-partial-data.ipynb)
 
 License
 -------
